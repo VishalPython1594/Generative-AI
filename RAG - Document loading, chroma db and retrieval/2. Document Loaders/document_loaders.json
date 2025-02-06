@@ -1,0 +1,41 @@
+{
+    "title": "Document Loaders",
+    "description": "Use document loaders to load data from a source as `Document`. Document loaders provide a 'load' method for loading data as documents from a configured source. They optionally implement a 'lazy load' as well for lazily loading data into memory.",
+    "loaders": [
+        {
+            "type": "Text Loaders",
+            "code": "from langchain_community.document_loaders import TextLoader\nloader = TextLoader(\"./index.md\")\nloader.load()"
+        },
+        {
+            "type": "CSV",
+            "code": "from langchain_community.document_loaders.csv_loader import CSVLoader\nloader = CSVLoader(file_path='./example_data/mlb_teams_2012.csv')\ndata = loader.load()"
+        },
+        {
+            "type": "HTML",
+            "code": "from langchain_community.document_loaders import UnstructuredHTMLLoader\nloader = UnstructuredHTMLLoader(\"example_data/fake-content.html\")\ndata = loader.load()"
+        },
+        {
+            "type": "Web Base Loader",
+            "notes": "Make sure to install: pip install beautifulsoup4",
+            "code": "from langchain_community.document_loaders import WebBaseLoader\nloader = WebBaseLoader(\"https://docs.smith.langchain.com/user_guide\")\ndata = loader.load()"
+        },
+        {
+            "type": "JSON",
+            "link": "https://python.langchain.com/docs/modules/data_connection/document_loaders/json",
+            "description": "Suppose we are interested in extracting the values under the `content` field within the `messages` key of the JSON data. This can easily be done through the JSONLoader as shown below.",
+            "code": "from langchain_community.document_loaders import JSONLoader\nloader = JSONLoader(\n    file_path='./example_data/facebook_chat.json',\n    jq_schema='.messages[].content',\n    text_content=False)\n\ndata = loader.load()"
+        },
+        {
+            "type": "PDF",
+            "link": "https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf",
+            "notes": "Make sure to install: pip install pypdf",
+            "code": "from langchain_community.document_loaders import PyPDFLoader\n\nloader = PyPDFLoader(\"example_data/layout-parser-paper.pdf\")\npages = loader.load_and_split()"
+        },
+        {
+            "type": "File Directory",
+            "link": "https://python.langchain.com/docs/modules/data_connection/document_loaders/file_directory",
+            "notes": "Under the hood it uses UnstructuredLoader. Make sure to install: pip install \"unstructured[all-docs]\". This covers how to load all documents in a directory. We can use the `glob` parameter to control which files to load.",
+            "code": "from langchain_community.document_loaders import DirectoryLoader\nfrom langchain_community.document_loaders import TextLoader\n\nloader = DirectoryLoader('../', glob=\"**/*.md\", show_progress=True, loader_cls=TextLoader)\ndocs = loader.load()"
+        }
+    ]
+}
